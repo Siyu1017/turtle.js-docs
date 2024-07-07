@@ -6,6 +6,9 @@ export default function Nextra({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
   return getLayout(
     <>
+      <Head>
+        <title>{((page) => page.title)}</title>
+      </Head>
       <Component {...pageProps} />
     </>
   )
