@@ -1,0 +1,50 @@
+import { Steps } from 'nextra/components'
+
+# Tutorial
+
+<Steps>
+
+### Setting up
+Create a new HTML document with a canvas element.
+```html copy
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Turtle.js Tutorial</title>
+    </head>
+    <body>
+        <canvas id='mycanvas'></canvas>
+        <script type="module">
+            // Your code will go here.
+        </script>
+    </body>
+</html>
+```
+
+### Initialize turtle
+Inside your module `<script>` tag, add the following code:
+```js copy
+import turtle from "https://cdn.jsdelivr.net/npm/@siyu971017/turtle.js@1.2.1/+esm";
+ 
+const canvas = document.getElementById('mycanvas');
+const t = new turtle(canvas);
+```
+
+### Do motions
+Do some motion ( like forward, left, right... ), example: 
+```js copy
+// Forward 100 pixels to the right ( because the default turtle orientation is right )
+t.forward(100);
+// Turn the turtle's head to the bottom
+t.right(90);
+// Go to position ( 100, 100 ), with animation
+t.goto(100, 100);
+// Return to center
+t.home();
+// Go to position ( 100, 100 ), without animation
+t.teleport(100, 100);
+```
+
+### Complete
+Now you have created a basic turtle. <br/> See more features on the [Methods](./methods.mdx) page.
+</Steps>

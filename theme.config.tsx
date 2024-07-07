@@ -2,21 +2,14 @@ import React from 'react'
 import { DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: <span>Turtle.js</span>,
   project: {
-    link: 'https://github.com/shuding/nextra-docs-template',
+    link: 'https://github.com/siyu1017/turtle.js',
   },
-  chat: {
-    link: 'https://discord.com',
-  },
-  docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
+  docsRepositoryBase: 'https://github.com/siyu1017/turtle.js-docs',
   footer: {
-    text: 'Nextra Docs Template',
-  },
-  i18n: [
-    { locale: 'en-US', text: 'English' },
-    { locale: 'zh-TW', text: '繁體中文' },
-  ]
+    
+  }
 }
 
 export default config
