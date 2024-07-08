@@ -2,7 +2,6 @@
   "index": {
     "title": "Home",
     "type": "page",
-    "display": "hidden",
     "theme": {
       "footer": false
     }
