@@ -1,0 +1,80 @@
+import { Steps } from 'nextra/components'
+
+# Create a plugin
+
+<Steps>
+### Create an object
+```js copy filename="my-plugin.js"
+const myPlugin = {
+    // Your code will go here.
+}
+```
+
+### Name it
+```js copy filename="my-plugin.js"
+const myPlugin = {
+    name: 'your-plugin-name'
+}
+```
+
+### Set the Initialize function
+```js copy filename="my-plugin.js"
+const myPlugin = {
+    name: 'your-plugin-name',
+    init: (api) => {
+        // Code that you want to execute only once, the first time the turtle.enable function is called
+        // 'api' can help you access all properties in the turtle class, just like 'this' in the turtle class
+        console.log(api._plugins)
+    }
+}
+```
+
+### Set the Execute function
+```js copy filename="my-plugin.js"
+const myPlugin = {
+    name: 'your-plugin-name',
+    init: (api) => {
+        // Code that you want to execute only once, the first time the turtle.enable function is called.
+        // 'api' can help you access all properties in the turtle class, just like 'this' in the turtle class.
+        console.log(api._plugins);
+    },
+    execute: (api) => {
+        // Code that you want to execute when a new frame is drawn.
+        // 'api' is the same as in the initialize function.
+        console.log(api.animateDatas);
+    }
+}
+```
+
+### Options
+- `zIndex` : If you want to draw, it can help you control the order of plug-in execution to control the upper and lower layers of graphics.
+
+### Export
+```js copy filename="my-plugin.js"
+const myPlugin = {
+    name: 'your-plugin-name',
+    init: (api) => {
+        // Code that you want to execute only once, the first time the turtle.enable function is called.
+        // 'api' can help you access all properties in the turtle class, just like 'this' in the turtle class.
+        console.log(api._plugins);
+    },
+    execute: (api) => {
+        // Code that you want to execute when a new frame is drawn.
+        // 'api' is the same as in the initialize function.
+        console.log(api.animateDatas);
+    }
+}
+
+export default myPlugin;
+```
+
+### Use the plugin
+```js copy filename="main.js"
+import myPlugin from 'my-plugin.js';
+
+// ...
+
+t.register(myPlugin);
+t.enable('your-plugin-name');
+```
+</Steps>

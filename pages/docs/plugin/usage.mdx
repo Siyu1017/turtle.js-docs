@@ -1,0 +1,58 @@
+# Usage
+
+## Built-in plugins
+
+- `mouse-coordinate`: Displays the coordinates of the cursor in the turtle screen.
+
+    ![mouse-coordinate](./mouse-coordinate.png)
+
+- `turtle-action`: Displays the currently called function below the turtle.
+
+    ![turtle-action](./turtle-action.png)
+
+- `turtle-fps`: Displays the FPS of the turtle screen in the upper right corner.
+
+    ![turtle-fps](./turtle-fps.png)
+
+## Register
+
+### Register a plugin
+```js copy
+t.register(plugin)
+```
+
+### Unregister a plugin
+```js copy
+t.unregister(pluginName)
+```
+
+## Use
+
+### Enable plugin
+```js copy
+t.enable(pluginName)
+```
+
+### Disable plugin
+```js copy
+t.disable(pluginName)
+```
+
+### Toggle enable plugin
+```js copy
+t.toggle(pluginName)
+```
+
+## Example
+
+### Use built-in plugins
+```js copy
+t.enable('mouse-coordinate')
+```
+
+### Use your plugin
+```js copy
+t.register(yourPlugin)
+t.enable(yourPluginName)
+```
+See also [Create](./create)

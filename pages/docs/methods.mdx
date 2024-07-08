@@ -7,6 +7,12 @@
 - [setlinejoin()](#turtlesetlinejointype)
 - [seteasing()](#turtleseteasingeasing)
 - [setduration()](#turtlesetdurationduration)
+- [on()](#turtleonevent-func)
+- [enable()](#turtleenablepluginname)
+- [disable()](#turtledisablepluginname)
+- [toggle()](#turtletogglepluginname)
+- [register()](#turtleregisterplugin)
+- [unregister()](#turtleunregisterpluginname)
 
 ### Turtle methods
 - Turtle motion
@@ -59,68 +65,96 @@ Most of the examples in this section refer to a Turtle instance called `turtle`.
 
 ### Methods specific to Turtle.js
 
-#### turtle.setlinecap(_type_)
-- `Parameters:` **type** - `round` ( Default ), `butt` or `square`
+#### turtle.setlinecap(type)
+- `Parameters:` **type** – `round` ( Default ), `butt` or `square`
 - Sets how line segment ends are drawn
 
-#### turtle.setlinejoin(_type_)
-- `Parameters:` **type** - `round` ( Default ), `bevel` or `miter`
+#### turtle.setlinejoin(type)
+- `Parameters:` **type** – `round` ( Default ), `bevel` or `miter`
 - Set how connected parts of line segments are connected together
 
-#### turtle.seteasing(_easing_)
-- `Parameters:` **easing** - `ease`, `ease-in`, `ease-out`, `ease-in-out`, `tep-start`, `tep-end`, `linear`, `easeInQuad`, `easeOutQuad`, `easeInOutQuad`, `easeInCubic`, `easeOutCubic`, `easeInOutCubic`, `easeInQuart`, `easeOutQuart`, `easeInOutQuart`, `easeInQuint`, `easeOutQuint`, `easeInOutQuint`, `easeInSine`, `easeOutSine`, `easeInOutSine`, `easeInExpo`, `easeOutExpo`, `easeInOutExpo`, `easeInCirc`, `easeOutCirc`, `easeInOutCirc` ( Default ), `easeInBack`, `easeOutBack`, `easeInOutBack`, `easeInElastic`, `easeOutElastic`, `easeInOutElastic`, `easeInBounce`, `easeOutBounce`, `easeInOutBounce`
+#### turtle.seteasing(easing)
+- `Parameters:` **easing** – `ease`, `ease-in`, `ease-out`, `ease-in-out`, `tep-start`, `tep-end`, `linear`, `easeInQuad`, `easeOutQuad`, `easeInOutQuad`, `easeInCubic`, `easeOutCubic`, `easeInOutCubic`, `easeInQuart`, `easeOutQuart`, `easeInOutQuart`, `easeInQuint`, `easeOutQuint`, `easeInOutQuint`, `easeInSine`, `easeOutSine`, `easeInOutSine`, `easeInExpo`, `easeOutExpo`, `easeInOutExpo`, `easeInCirc`, `easeOutCirc`, `easeInOutCirc` ( Default ), `easeInBack`, `easeOutBack`, `easeInOutBack`, `easeInElastic`, `easeOutElastic`, `easeInOutElastic`, `easeInBounce`, `easeOutBounce`, `easeInOutBounce`
 - Set the easing function of turtle motion transition
 
-#### turtle.setduration(_duration_)
-- `Parameters:` **duration** - a positive number
+#### turtle.setduration(duration)
+- `Parameters:` **duration** – a positive number
 - Set the duration of turtle motion transition
+
+#### turtle.on(event, func)
+- `Parameters:`
+    - **event** – One of `start`, `complete`, `click`, `dblclick`, `mousedown`, `mouseenter`, `mouseleave`, `mouseover`, `mouseout`, `mouseup`, `contextmenu`, `mousemove` or a string.
+    - **func** – A function
+- Listen an event
+
+#### turtle.enable(pluginName)
+- `Parameters:` **pluginName** – a string
+- Enable a plugin
+
+#### turtle.disable(pluginName)
+- `Parameters:` **pluginName** – a string
+- Disable a plugin
+
+#### turtle.toggle(pluginName)
+- `Parameters:` **pluginName** – a string
+- Toggle enable a plugin
+
+#### turtle.register(plugin)
+- `Parameters:` **plugin** – an object
+- Register a plugin
+
+#### turtle.unregister(pluginName)
+- `Parameters:` **pluginName** – a string
+- Unregister a plugin
+
+Learn more on the [Plugin](./plugin) page.
 
 ### Turtle motion
 
-#### turtle.forward(_distance_)
+#### turtle.forward(distance)
 - `Parameters:` **distance** – a number (integer or float)
-- Short functions : **turtle.fd(_distance_)**
+- Short functions : **turtle.fd(distance)**
 - Move the turtle forward by the specified `distance`, in the direction the turtle is headed.
 
-#### turtle.backward(_distance_)
+#### turtle.backward(distance)
 - `Parameters:` **distance** – a number
-- Short functions : **turtle.bk(_distance_)**, **turtle.back(_distance_)**
+- Short functions : **turtle.bk(distance)**, **turtle.back(distance)**
 - Move the turtle backward by `distance`, opposite to the direction the turtle is headed. Do not change the turtle’s heading.
 
-#### turtle.right(_angle_)
+#### turtle.right(angle)
 - `Parameters:` **angle** – a number (integer or float)
-- Short functions : **turtle.rt(_angle_)**
+- Short functions : **turtle.rt(angle)**
 - Turn turtle right by `angle` units. (Units are by default degrees, but can be set via the degrees() and radians() functions.) Angle orientation depends on the turtle mode, see mode().
 
-#### turtle.left(_angle_)
+#### turtle.left(angle)
 - `Parameters:` **angle** – a number (integer or float)
-- Short functions : **turtle.lt(_angle_)**
+- Short functions : **turtle.lt(angle)**
 - Turn turtle left by `angle` units. (Units are by default degrees, but can be set via the degrees() and radians() functions.) Angle orientation depends on the turtle mode, see mode().
 
-#### turtle.goto(_x_, _y_)
+#### turtle.goto(x, y)
 - `Parameters:` 
     - **x** – a number
     - **y** – a number
-- Short functions : **turtle.setpos(_x_, _y_)**, **turtle.setposition(_x_, _y_)**
+- Short functions : **turtle.setpos(x, y)**, **turtle.setposition(x, y)**
 - Move turtle to an absolute position. If the pen is down, draw line. Do not change the turtle’s orientation.
 
-#### turtle.teleport(_x_, _y_)
+#### turtle.teleport(x, y)
 - `Parameters:` 
     - **x** – a number
     - **y** – a number
 - Move turtle to an absolute position. Unlike [goto(x, y)](#turtlegotox-y), a line will not be drawn. The turtle’s orientation does not change.
 
-#### turtle.setx(_x_)
+#### turtle.setx(x)
 - `Parameters:` **x** – a number (integer or float)
 - Set the turtle’s first coordinate to `x`, leave second coordinate unchanged.
 
-#### turtle.sety(_y_)
+#### turtle.sety(y)
 - `Parameters:` **y** – a number (integer or float)
 - Set the turtle’s second coordinate to `y`, leave first coordinate unchanged.
 
-#### turtle.setheading(_angle_)
+#### turtle.setheading(angle)
 - `Parameters:` **angle** – a number (integer or float)
-- Short functions : **turtle.seth(_angle_)**
+- Short functions : **turtle.seth(angle)**
 - Set the orientation of the turtle to `angle`. Here are some common directions in degrees:
     | Directions | East | South | West | North |
     | :--------: | :--: | :---: | :--: | :---: |
@@ -129,14 +163,14 @@ Most of the examples in this section refer to a Turtle instance called `turtle`.
 #### turtle.home()
 - Move turtle to the origin – coordinates (0,0) – and set its heading to its start-orientation (which depends on the mode, see mode()).
 
-#### turtle.circle(_radius_, _startAngle=0_, _endAngle=360_)
+#### turtle.circle(radius, startAngle=0, endAngle=360)
 - `Parameters:`
     - **radius** – a number
     - **startAngle** – a number
     - **endAngle** – a number
 - Draws a circle with `radius` specified. The center of the circle is at the position of the turtle; the difference between `startAngle` and `endAngle` is an angle, which is used to determine the part of the circle to be drawn. If `startAngle` and `endAngle` are not specified, the entire circle is drawn.
 
-#### turtle.dot(_size_, _color_)
+#### turtle.dot(size, color)
 - `Parameters:`
     - **size** – a positive number
     - **color** – a colorstring or a color code
@@ -168,7 +202,7 @@ Drawing state
 - Short functions : **pu()**, **up()**
 - Pull the pen up – no drawing when moving.
 
-#### turtle.pensize(_width=None_)
+#### turtle.pensize(width=None)
 - `Parameters:` **width** – a positive number
 - Short functions : **width()**
 - Set the line thickness to `width` or return it. If no argument is given, the current penSize is returned.
@@ -178,15 +212,15 @@ Drawing state
 
 Color control
 
-#### turtle.pencolor(_color_)
+#### turtle.pencolor(color)
 - `Parameters:` **color** – a colorstring or a numeric color code
 - Return or set the pencolor.
 
-#### turtle.fillcolor(_color_)
+#### turtle.fillcolor(color)
 - `Parameters:` **color** – a colorstring or a numeric color code
 - Return or set the fillcolor.
 
-#### turtle.color(_color_)
+#### turtle.color(color)
 - `Parameters:` 
     - **color** – a colorstring or a numeric color code
 - Set pencolor and fillcolor to `color` or return them. If no argument is given, the current pencolor and fillcolor are returned. 
@@ -233,6 +267,6 @@ Visibility
 
 Appearance
 
-#### turtle.shape(_name=None_)
+#### turtle.shape(name=None)
 - `Parameters:` **name** – a string which is a valid shapename
 - Set turtle shape to shape with given `name` or, if name is not given, return name of current shape. Shape with `name` must exist in the TurtleScreen’s shape dictionary. Initially there are the following polygon shapes: `arrow`, `turtle`, `circle`, `square`, `triangle`, `classic`. 
