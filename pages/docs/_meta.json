@@ -2,5 +2,8 @@
   "index": "Get Started",
   "tutorial": "Tutorial",
   "methods": "Methods",
-  "plugin": "Plugin"
+  "plugin": {
+    "title": "Plugin",
+    "type": "doc"
+  }
 }
