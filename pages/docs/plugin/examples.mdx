@@ -1,6 +1,206 @@
 # Examples
 
-### Create a label that will follow the mouse
+### Create a plugin that can copy the area selected by the cursor in the turtle canvas to the clipboard
+
+<br/>
+
+<iframe src="https://codesandbox.io/embed/k9h4rz?view=editor+%2B+preview&module=%2Findex.html"
+     style={{width:'100%', height: '500px', border:'0', borderRadius: '4px', overflow:'hidden'}}
+     title="copy-selected-area"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+```js copy filename="copy-selected-area.js"
+var clicked = false;
+var mouseDown = false;
+var xDown = 0;
+var yDown = 0;
+var xMove = 0;
+var yMove = 0;
+var clip = false;
+var proccessingImage = false;
+var dataURL = '';
+var start;
+var showCopyMessageTime;
+var copyMessage = null;
+var copyState = '';
+
+async function copyImgToClipboard(dataUrl) {
+    try {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        await navigator.clipboard.write([
+            new ClipboardItem({
+                [blob.type]: blob,
+            }),
+        ]);
+        copyMessage = 'Copied successfully!';
+        copyState = 'ok';
+        showCopyMessageTime = Date.now();
+        proccessingImage = false;
+    } catch (err) {
+        copyMessage = err.message;
+        copyState = 'error';
+        showCopyMessageTime = Date.now();
+        proccessingImage = false;
+    }
+}
+
+function cutImageFromCanvas(canvas, x, y, width, height, type = 'url') {
+    return new Promise(resolve => {
+        const croppedCanvas = document.createElement('canvas');
+        var ratio = window.devicePixelRatio || 1;
+        croppedCanvas.width = width * ratio;
+        croppedCanvas.height = height * ratio;
+        croppedCanvas.style.width = width + 'px';
+        croppedCanvas.style.height = height + 'px';
+
+        const ctx = croppedCanvas.getContext('2d');
+        ctx.drawImage(canvas, x * ratio, y * ratio, width * ratio, height * ratio, 0, 0, croppedCanvas.width, croppedCanvas.height);
+
+        croppedCanvas.toBlob(blob => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const dataUrl = reader.result;
+                resolve(dataUrl);
+            };
+            reader.readAsDataURL(blob);
+        });
+    });
+}
+
+function getAnimateData(keyframes, name, time, duration) {
+    const percent = (time % duration) / duration * 100;
+    var start = 0;
+    var end = 0;
+    Object.keys(keyframes).forEach((keyframe, i) => {
+        if (Object.keys(keyframes).length > i + 1) {
+            if (keyframe <= percent && percent <= Object.keys(keyframes)[i + 1]) {
+                start = +keyframe;
+                end = +Object.keys(keyframes)[i + 1];
+            }
+        }
+    })
+    if (!keyframes[start].hasOwnProperty(name) && !keyframes[end].hasOwnProperty) {
+        return 0;
+    } else {
+        return keyframes[start][name] + (keyframes[end][name] - keyframes[start][name]) * (percent - start) / (end - start);
+    }
+}
+
+var tipTextKeyframes = {
+    0: {
+        opacity: 0.3
+    },
+    50: {
+        opacity: 1
+    },
+    100: {
+        opacity: 0.3
+    }
+}
+
+const copySelectedArea = {
+    name: 'copy-selected-area',
+    init: (api) => {
+        api.on('mousedown', (e) => {
+            mouseDown = true;
+            xDown = e.x;
+            yDown = e.y;
+            xMove = e.x;
+            yMove = e.y;
+            clicked = true;
+            copyMessage = null;
+            copyState = '';
+        })
+
+        api.on('mousemove', (e) => {
+            xMove = e.x;
+            yMove = e.y;
+        })
+
+        window.addEventListener('mouseup', (e) => {
+            if (mouseDown == true) {
+                clip = true;
+                proccessingImage = true;
+            }
+            mouseDown = false;
+        })
+
+        window.addEventListener('blur', (e) => {
+            mouseDown = false;
+        })
+
+        start = Date.now();
+    },
+    execute: async (api) => {
+        var text = '';
+        var animation = false;
+        if (Date.now() - showCopyMessageTime > 3000) {
+            copyMessage = null;
+            copyState = '';
+        }
+        if (copyMessage != null) {
+            text = copyMessage;
+        } else if (proccessingImage == true) {
+            text = 'Cutting image and copy to clipboard...';
+            copyMessage = null;
+            copyState = '';
+        } else if (mouseDown == true) {
+            text = 'Selecting...';
+            copyMessage = null;
+            copyState = '';
+        } else {
+            text = 'Mouse down to start the selection, Mouse up to end the selection and copy the selected area.';
+            animation = true;
+        }
+        // Fill tip text
+        api.ctx.save();
+        api.ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif';
+        var opacity = animation == true ? getAnimateData(tipTextKeyframes, 'opacity', Date.now() - start, 1500) : 1;
+        api.ctx.fillStyle = copyState == 'ok' ? 'rgb(0 231 34)' : copyState == 'error' ? 'rgb(255 0 17)' : `rgba(141,141,141,${opacity})`;
+        api.ctx.textAlign = 'center';
+        api.ctx.textBaseline = 'bottom';
+        api.ctx.fillText(text, api.canvas.offsetWidth / 2, api.canvas.offsetHeight - 30);
+        api.ctx.restore();
+        if (mouseDown == true) {
+            // Fill selected area
+            api.ctx.save();
+            api.ctx.beginPath();
+            api.ctx.fillStyle = 'rgba(0, 0, 255, 0.15)';
+            api.ctx.strokeStyle = '#a570ff';
+            api.ctx.lineWidth = .75;
+            api.ctx.fillRect(xDown, yDown, xMove - xDown, yMove - yDown);
+            api.ctx.strokeRect(xDown, yDown, xMove - xDown, yMove - yDown);
+            api.ctx.closePath();
+            api.ctx.restore();
+        } else if (clip == true) {
+            // Get the image data and copy to clipboard
+            clip = false;
+            var width = xMove - xDown;
+            var height = yMove - yDown;
+            if (width == 0 || height == 0) return proccessingImage = false;
+            var dataUrl = await cutImageFromCanvas(api.canvas, xDown, yDown, xMove - xDown, yMove - yDown);
+            copyImgToClipboard(dataUrl);
+        }
+    },
+    zIndex: 9999999
+}
+
+export default copySelectedArea;
+```
+
+### Create a label that follows the mouse and displays its coordinates
+
+<br/>
+
+<iframe src="https://codesandbox.io/embed/lpkn75?view=editor+%2B+preview"
+     style={{width:'100%', height: '500px', border:'0', borderRadius: '4px', overflow:'hidden'}}
+     title="mouse-coordinate"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 ```js copy filename="mouse-coordinate.js"
 var position = {

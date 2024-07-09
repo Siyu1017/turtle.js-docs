@@ -1,4 +1,34 @@
+import { Steps } from 'nextra/components'
+
 # Usage
+
+## Use [Built-in plugins](#built-in-plugins)
+
+<Steps>
+### Enable
+```js copy
+t.enable('built-in-plugin-name')
+```
+
+### Plugin is enabled
+</Steps>
+
+## Use your plugin
+
+<Steps>
+### Register
+```js copy
+t.register(yourPlugin)
+```
+
+### Enable
+```js copy
+t.enable('your-plugin-name')
+```
+
+### Plugin is enabled
+See also [Methods](./methods), [Create](./create)
+</Steps>
 
 ## Built-in plugins
 
@@ -13,46 +43,3 @@
 - `turtle-fps`: Displays the FPS of the turtle screen in the upper right corner.
 
     ![turtle-fps](./turtle-fps.png)
-
-## Register
-
-### Register a plugin
-```js copy
-t.register(plugin)
-```
-
-### Unregister a plugin
-```js copy
-t.unregister(pluginName)
-```
-
-## Use
-
-### Enable plugin
-```js copy
-t.enable(pluginName)
-```
-
-### Disable plugin
-```js copy
-t.disable(pluginName)
-```
-
-### Toggle enable plugin
-```js copy
-t.toggle(pluginName)
-```
-
-## Example
-
-### Use built-in plugins
-```js copy
-t.enable('mouse-coordinate')
-```
-
-### Use your plugin
-```js copy
-t.register(yourPlugin)
-t.enable(yourPluginName)
-```
-See also [Create](./create)
